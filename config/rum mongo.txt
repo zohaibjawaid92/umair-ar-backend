@@ -1,0 +1,3 @@
+mongod --storageEngine=mmapv1 --dbpath c:\mongodb\data\db
+
+for 32 bit windows

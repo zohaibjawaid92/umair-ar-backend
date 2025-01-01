@@ -88,6 +88,23 @@ router.post("/products/by-category", async (req, res) => {
   }
 });
 
+router.get("/products", async (req, res) => {
+  try {
+    // Fetch all products from the database
+    const products = await Product.find({})
+      .populate("category", "name") // Optionally populate category details
+      .sort({ createdAt: -1 }); // Sort by newest first (optional)
+
+    if (!products || products.length === 0) {
+      return res.status(404).json({ success: false, msg: "No products found." });
+    }
+
+    res.json({ success: true, data: products });
+  } catch (error) {
+    console.error("Error retrieving products:", error);
+    res.status(500).json({ success: false, msg: "Internal Server Error" });
+  }
+});
 
 router.post(
     "/product/:productId/images",

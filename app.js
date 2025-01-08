@@ -7,17 +7,51 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo'); // Add this line
 const config = require('./config/database');
+const bcrypt = require("bcryptjs");
+const User = require("./models/user");
 
 mongoose.Promise = global.Promise;
 const app = express();
 
 const port = process.env.PORT || 9000;
 
+async function ensureDefaultAdmin() {
+  try {
+    // Check if a global admin exists
+    const existingAdmin = await User.findOne({ email: "admin@admin.com", role: "globaladmin" });
+
+    if (!existingAdmin) {
+      console.log("No global admin found. Creating default global admin...");
+
+      // Hash the password
+      const saltRounds = 10;
+      const hashedPassword = await bcrypt.hash("123456", saltRounds);
+
+      // Create the default global admin
+      await User.create({
+        first_name: "Global",
+        last_name: "Admin",
+        email: "admin@admin.com",
+        password: hashedPassword,
+        role: "globaladmin",
+        isActive: true,
+      });
+
+      console.log("Default global admin created successfully.");
+    } else {
+      console.log("Global admin already exists.");
+    }
+  } catch (error) {
+    console.error("Error ensuring default global admin:", error);
+  }
+}
+
 mongoose.connect(config.database, {
   useNewUrlParser: true,
   useUnifiedTopology: true
-}).then(() => {
+}).then(async () => {
   console.log('Connected to MongoDB');
+  await ensureDefaultAdmin();
 }).catch((error) => {
   console.error('Error connecting to MongoDB:', error);
 });

@@ -3,7 +3,6 @@ const router = express.Router();
 const Questionnaire = require("../models/template");
 const UserPackage = require('../models/user-packages');
 const User = require('../models/user');
-const Package = require("../models/package");
 const bcrypt = require("bcryptjs");
 const multer = require("multer");
 const cloudinary = require("cloudinary").v2;

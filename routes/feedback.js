@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const Questionnaire = require("../models/template");
-const Package = require("../models/package");
 const ContactUs = require('../models/feedback');
 const bcrypt = require("bcryptjs");
 const multer = require("multer");

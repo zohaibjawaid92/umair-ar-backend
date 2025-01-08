@@ -39,11 +39,7 @@ app.use(passport.session());
 require('./config/passport')(passport);
 
 var users = require('./routes/users');
-var members = require('./routes/members');
 var questionarie = require('./routes/template');
-var package = require('./routes/package');
-var userPacakge = require('./routes/user-package');
-var membersaveanswer = require('./routes/membersaveanswer');
 var feedback = require('./routes/feedback');
 var sections = require('./routes/sections');
 var category = require('./routes/category');
@@ -53,11 +49,7 @@ app.use(express.json({
   limit: '50mb'
 }));
 app.use('/users', users);
-app.use('/members', members);
 app.use('/template', questionarie);
-app.use('/package', package);
-app.use('/users', userPacakge);
-app.use('/memberssave', membersaveanswer);
 app.use('/feedback', feedback);
 app.use('/section', sections);
 app.use('/category', category);
